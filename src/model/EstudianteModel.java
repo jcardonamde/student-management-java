@@ -1,7 +1,7 @@
 package model;
 
 public class EstudianteModel {
-    private long codigo;
+    private int codigo;
     private String nombre;
     private String apellido;
     private String direccion;
@@ -17,7 +17,7 @@ public class EstudianteModel {
         this.estrato = -1;
     }
 
-    public EstudianteModel(long codigo, String nombre, String apellido, String direccion, String telefono, int estrato) {
+    public EstudianteModel(int codigo, String nombre, String apellido, String direccion, String telefono, int estrato) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -26,11 +26,11 @@ public class EstudianteModel {
         this.estrato = estrato;
     }
 
-    public long getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(long codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 

@@ -10,7 +10,7 @@ public class ConexionWorkbenchDB {
            Connection con = DriverManager.getConnection(
                    "jdbc:mysql://localhost:3306/universidad_harvard", 
                     "root",
-                    "your_password");
+                    "Bruselas2025.");
            return con;
        } catch(Exception ex) {
            return null;

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package forms;
 
 import dao.EstudianteDao;
@@ -13,10 +9,6 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-/**
- *
- * @author Jonathan
- */
 public class EstudianteForm extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(EstudianteForm.class.getName());
@@ -57,6 +49,9 @@ public class EstudianteForm extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,6 +159,39 @@ public class EstudianteForm extends javax.swing.JFrame {
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 70, 500, 250));
 
+        jButton3.setBackground(new java.awt.Color(0, 204, 204));
+        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
+        jButton3.setText("CONSULTAR");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 30, -1, 30));
+
+        jButton2.setBackground(new java.awt.Color(255, 153, 51));
+        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("ACTUALIZAR");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 30, -1, 30));
+
+        jButton4.setBackground(new java.awt.Color(255, 0, 51));
+        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("ELIMINAR");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 30, 100, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -201,6 +229,60 @@ public class EstudianteForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if(!txtCodigo.getText().isEmpty() && txtCodigo.getText().matches("\\d+")) {
+            int codigo = Integer.parseInt(txtCodigo.getText().trim());
+            EstudianteModel e = EstudianteDao.consultar(codigo);
+            
+            if(e!=null) {
+                txtNombre.setText(e.getNombre());
+                txtApellido.setText(e.getApellido());
+                txtDireccion.setText(e.getDireccion());
+                txtTelefono.setText(e.getTelefono());
+                txtEstrato.setText(String.valueOf(e.getEstrato()));
+            } else {
+                JOptionPane.showMessageDialog(null, "No se encontro un estudiante con ese código");
+                limpiarCampos();
+                txtCodigo.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (validarCampos()) {
+            EstudianteModel est = new EstudianteModel();
+            est.setCodigo(Integer.parseInt(txtCodigo.getText()));
+            est.setNombre(txtNombre.getText());
+            est.setApellido(txtApellido.getText());
+            est.setDireccion(txtDireccion.getText());
+            est.setTelefono(txtTelefono.getText());
+            est.setEstrato(Integer.parseInt(txtEstrato.getText()));
+            boolean guardado = EstudianteDao.actualizar(est);
+            
+            if (guardado) {
+                limpiarCampos();
+                listarDatos();
+            } else {
+                JOptionPane.showMessageDialog(null, EstudianteDao.mensaje);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if(!txtCodigo.getText().isEmpty() && txtCodigo.getText().matches("\\d+")) {
+            int codigo = Integer.parseInt(txtCodigo.getText().trim());
+            boolean eliminado = EstudianteDao.eliminar(codigo);
+            
+            if(eliminado) {
+                JOptionPane.showMessageDialog(null, EstudianteDao.mensaje);
+                limpiarCampos();
+                listarDatos();
+                txtCodigo.requestFocus();
+            }
+            JOptionPane.showMessageDialog(null, EstudianteDao.mensaje);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -228,6 +310,9 @@ public class EstudianteForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
